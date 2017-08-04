@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_relative"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="com.park1993.diary1.TestActivity">
+
+
+    <LinearLayout
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="sadasdasd"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:id="@+id/tv_query"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_content"
+            android:gravity="clip_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"/>
+    <ImageView
+        android:id="@+id/iv_camera"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        style="@android:style/ButtonBar"
+        android:background="#fff"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_gallery"/>
+    <ImageView
+        android:id="@+id/iv_save"
+        android:clickable="true"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/ic_menu_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_margin="8dp"
+        android:id="@+id/iv_circle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>
