@@ -22,7 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     Context context;
     ArrayList<String> querys = new ArrayList<>();
-    String[] Q = new String[]{"query0", "query1", "query2", "query3", "query4", "query5", "query6", "query7"};
     String[] qu = new String[]{"오늘 누구를 만났나요?",
             "오늘은 어디에 갔었나요?",
             "오늘은 어떤 옷을 입었나요?",
@@ -107,6 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
 
     public void insertOrUpdate(int date, ArrayList<Item> items,int index) {
         SQLiteDatabase db = getWritableDatabase();

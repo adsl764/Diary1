@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity
 
         }
     };
-
+//////////////////플로팅액션버튼 리스너
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
