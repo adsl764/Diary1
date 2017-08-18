@@ -3,13 +3,13 @@ package com.park1993.diary1;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +24,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     public static int date;
     SQLiteDatabase db;
+    boolean isFAB = false, isimg=false;
     RecyclerView recyclerView;
     DBHelper helper;
     MainRecyclerAdapter recyclerAdapter;
@@ -48,8 +50,27 @@ public class MainActivity extends AppCompatActivity
     TextView tvMonth;
     TextView tvDay;
     ImageView ivBack;
+    Intent intent1;
+    ImageView img;
+    FloatingActionButton fab1, fab2, fab3, fab4;
+    static final int CARD_SET_ACTIVITY = 724;
+    android.os.Handler handler = new android.os.Handler() {
+
+
+        @Override
+        public void handleMessage(Message msg) {
+            startActivityForResult(intent1, CARD_SET_ACTIVITY);
+            overridePendingTransition(0, 0);
+        }
+    };
+
     CoordinatorLayout coordinatorLayout;
     final int TEST_ACTIVITY = 10;
+    AppBarLayout toolbarLayout;
+
+    Animation FAB_open;
+    Animation FAB_close;
+    Animation rotate_forward, rotate_backward;
 
 
     //플로팅 액션버튼 리스너
@@ -107,25 +128,38 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     public void 초깃값설정() {
 
         String d = new SimpleDateFormat("yyyyMMdd").format(new Date());
         date = Integer.parseInt(d);
 
+        img=(ImageView)findViewById(R.id.ccc);
+        FAB_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        FAB_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_background);
 
 
-
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.layout_coordinator);
         ivBack = (ImageView) findViewById(R.id.imageView_for_background);
         calendarView = (CalendarView) findViewById(R.id.calendar);
         tvMonth = (TextView) findViewById(R.id.tv_date_month);
         tvDay = (TextView) findViewById(R.id.tv_date_day);
-
+        toolbarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_layout);
 
         //플로팅 액션버튼 리스너
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(onClickListener);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab4 = (FloatingActionButton) findViewById(R.id.fab4);
+
+        fab1.setOnClickListener(onClickListener);
+        fab2.setOnClickListener(onClickListener);
+        fab3.setOnClickListener(onClickListener);
+        fab4.setOnClickListener(onClickListener);
 
         //리사이클러뷰에 아이템 추가하는 부분
 
@@ -137,6 +171,17 @@ public class MainActivity extends AppCompatActivity
         helper = new DBHelper(this, "test", null, 1);
         db = helper.getWritableDatabase();
         loadDB(date);
+
+
+        int y = Integer.parseInt(d.substring(0, 4));
+        int m = Integer.parseInt(d.substring(4, 6));
+        int day = Integer.parseInt(d.substring(6, 8));
+
+        tvMonth.setText(myGetDay(y, m, day) + "\n" + y + "년" + m + "월");
+        tvDay.setText(d.substring(6, 8));
+
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -170,13 +215,10 @@ public class MainActivity extends AppCompatActivity
         items.clear();
 
 
-
-
     }
 
     public void setRecyclerView(ArrayList arrayList) {
         items.clear();
-        Log.i("asd",""+arrayList.size());
         for (int i = 0; i < arrayList.size(); i++) {
             items.add(new Item((String) arrayList.get(i)));
         }
@@ -187,7 +229,7 @@ public class MainActivity extends AppCompatActivity
         items.get(index).setContent(content);
         items.get(index).setQuery(query);
         recyclerAdapter.notifyDataSetChanged();
-        helper.insertOrUpdate(date,items,index);
+        helper.insertOrUpdate(date, items, index);
 
     }
 
@@ -196,7 +238,7 @@ public class MainActivity extends AppCompatActivity
         items.get(index).setQuery(query);
         items.get(index).setImgUri(imgUri);
         recyclerAdapter.notifyDataSetChanged();
-        helper.insertOrUpdate(date,items,index);
+        helper.insertOrUpdate(date, items, index);
 
 
     }
@@ -229,7 +271,6 @@ public class MainActivity extends AppCompatActivity
         return null;
     }
 
-
     CalendarView.OnDateChangeListener onDateChangeListener = new CalendarView.OnDateChangeListener() {
         @Override
         public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -238,19 +279,34 @@ public class MainActivity extends AppCompatActivity
 
             String s = String.format("%d%02d%02d", year, month + 1, dayOfMonth);
             loadDB(Integer.parseInt(s));
-            date=Integer.parseInt(s);
+            date = Integer.parseInt(s);
 
             tvDay.setText(String.format("%02d", dayOfMonth));
             tvMonth.setText(myGetDay(year, month + 1, dayOfMonth) + "\n" + year + "년" + (month + 1) + "월");
 
         }
     };
-//////////////////플로팅액션버튼 리스너
+    //////////////////플로팅액션버튼 리스너
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            if (v.getId() == R.id.fab1) {
+                clickFab1();
+            }
+            if(v.getId()== R.id.fab2){
+                clickSetCardView();
+            }
+            if(v.getId()== R.id.fab3){
+                clickFab2();
+
+            }
+            if(v.getId()== R.id.fab4){
+
+            }
+
+
+
+
 
         }
     };
@@ -291,10 +347,8 @@ public class MainActivity extends AppCompatActivity
 
         if (resultCode != RESULT_OK) return;
 
-
         switch (requestCode) {
             case TEST_ACTIVITY:
-
                 if (data.getStringExtra("ImgUri") != null) {
                     //사진이 있는경우
                     selectItemChange(data.getStringExtra("Query"), data.getStringExtra("Content"), data.getIntExtra("Index", 0), data.getStringExtra("ImgUri"));
@@ -302,6 +356,14 @@ public class MainActivity extends AppCompatActivity
                     //사진이 없는경우
                     selectItemChange(data.getStringExtra("Query"), data.getStringExtra("Content"), data.getIntExtra("Index", 0));
                 }
+                break;
+            case CARD_SET_ACTIVITY:
+                helper.updateQuery(data.getParcelableArrayListExtra("Items"), date);
+                items = data.getParcelableArrayListExtra("Items");
+
+                recyclerAdapter = new MainRecyclerAdapter(this, items);
+                recyclerView.setAdapter(recyclerAdapter);
+                recyclerAdapter.notifyDataSetChanged();
 
                 break;
 
@@ -317,8 +379,8 @@ public class MainActivity extends AppCompatActivity
         if (helper.isExist(date)) {
             Log.i("asd", "디비에 정보가 존재o");
             //디비에 해당 날짜에 대한 정보가 있음으로 데이타테이블로대체
-            items=helper.getItem(date);
-            recyclerAdapter=new MainRecyclerAdapter(this,items);
+            items = helper.getItem(date);
+            recyclerAdapter = new MainRecyclerAdapter(this, items);
             recyclerView.setAdapter(recyclerAdapter);
         } else {
             //디비에 해당 날짜에 대답이 존재하지 않음으로 쿼리테이블으로 대체
@@ -332,5 +394,60 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
     }
+
+    public void clickFab1(){
+        if (isFAB == false) {
+            fab1.startAnimation(rotate_forward);
+
+            fab2.startAnimation(FAB_open);
+            fab3.startAnimation(FAB_open);
+            fab4.startAnimation(FAB_open);
+            fab2.setVisibility(View.VISIBLE);
+            fab3.setVisibility(View.VISIBLE);
+            fab4.setVisibility(View.VISIBLE);
+            isFAB = true;
+        } else {
+            fab1.startAnimation(rotate_backward);
+
+            fab2.startAnimation(FAB_close);
+            fab3.startAnimation(FAB_close);
+            fab4.startAnimation(FAB_close);
+
+            fab2.setVisibility(View.GONE);
+            fab3.setVisibility(View.GONE);
+            fab4.setVisibility(View.GONE);
+            isFAB = false;
+        }
+    }
+    public void clickSetCardView(){
+        toolbarLayout.setExpanded(false);
+        intent1 = new Intent(MainActivity.this, CardSetActivity.class);
+        intent1.putExtra("date", date);
+        toolbarLayout.setExpanded(false);
+        handler.sendEmptyMessageDelayed(CARD_SET_ACTIVITY, 200);
+
+    }
+    public void clickimg(View v){
+        if(!isimg){
+            toolbarLayout.setExpanded(false);
+            img.setImageResource(android.R.drawable.arrow_down_float);
+            isimg=!isimg;
+        }else {
+            toolbarLayout.setExpanded(true);
+            img.setImageResource(android.R.drawable.arrow_up_float);
+            isimg=!isimg;
+        }
+
+
+
+
+
+
+    }
+    public void clickFab2(){
+        Intent intent=new Intent(this,PhotoActivity.class);
+        startActivity(intent);
+    }
+
 }
 

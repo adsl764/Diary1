@@ -17,9 +17,12 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    tools:context="com.park1993.diary1.MainActivity">
+    tools:context="com.park1993.diary1.MainActivity"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -32,12 +35,12 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
             <CalendarView
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
                 android:layout_height="330dp">
             </CalendarView>
+
 
         </android.support.design.widget.CollapsingToolbarLayout>
         <android.support.v7.widget.Toolbar
@@ -61,6 +64,15 @@
                 android:layout_height="wrap_content"
                 android:text="금요일\n2017년7월"/>
 
+            <ImageView
+                android:id="@+id/ccc"
+                android:clickable="true"
+                android:onClick="clickimg"
+                android:layout_marginLeft="90dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/arrow_up_float"/>
+
         </android.support.v7.widget.Toolbar>
 
 
@@ -69,16 +81,43 @@
 
     <include layout="@layout/content_main" />
 
-
-
-
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="90dp"
+        android:layout_marginBottom="8dp"
+        app:srcCompat="@android:drawable/ic_dialog_dialer" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:visibility="gone"
+        android:id="@+id/fab3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="90dp"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:visibility="gone"
+        android:id="@+id/fab4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="64dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 
 
 

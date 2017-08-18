@@ -21,16 +21,17 @@ public class DialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
 
-        tvOK=(TextView)findViewById(R.id.tv_ok);
-        ivCancel=(ImageView)findViewById(R.id.iv_cancel);
-        etQuery=(EditText)findViewById(R.id.edit_query);
 
-        tvOK.setOnClickListener(listener);
-        ivCancel.setOnClickListener(listener);
+        if(getIntent().getIntExtra("setting",0)==0){
+            mainATV();
+        }
+        else {
+            cardATV();
 
-        i=getIntent();
-        etQuery.setText(i.getStringExtra("Query"));
-        etQuery.setSelection(etQuery.length());
+        }
+
+
+
 
 
 
@@ -38,14 +39,41 @@ public class DialogActivity extends AppCompatActivity {
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //바깥레이어 클릭시 안닫히게
+        //레이어 클릭시 안닫히게
         if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
             return false;
         }
         return true;
     }
+    public void mainATV(){
+        tvOK=(TextView)findViewById(R.id.tv_ok);
+        ivCancel=(ImageView)findViewById(R.id.iv_cancel);
+        etQuery=(EditText)findViewById(R.id.edit_query);
 
-    View.OnClickListener listener=new View.OnClickListener() {
+        tvOK.setOnClickListener(mainListener);
+        ivCancel.setOnClickListener(mainListener);
+
+        i=getIntent();
+        etQuery.setText(i.getStringExtra("Query"));
+        etQuery.setSelection(etQuery.length());
+
+    }
+    public void cardATV(){
+        tvOK=(TextView)findViewById(R.id.tv_ok);
+        ivCancel=(ImageView)findViewById(R.id.iv_cancel);
+        etQuery=(EditText)findViewById(R.id.edit_query);
+
+        tvOK.setOnClickListener(cardistener);
+        ivCancel.setOnClickListener(cardistener);
+
+        i=getIntent();
+        etQuery.setText(i.getStringExtra("Query"));
+        etQuery.setSelection(etQuery.length());
+
+
+    }
+
+    View.OnClickListener mainListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
            if(v.equals(ivCancel)){
@@ -55,6 +83,19 @@ public class DialogActivity extends AppCompatActivity {
                setResult(RESULT_OK,i);
                finish();
            }
+        }
+    };
+    View.OnClickListener cardistener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(v.equals(ivCancel)){
+                finish();
+            }else {
+
+                i.putExtra("Query",etQuery.getText().toString());
+                setResult(RESULT_OK,i);
+                finish();
+            }
         }
     };
 

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.park1993.diary1">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,9 +26,15 @@
         <activity
             android:name=".TestActivity"
             android:theme="@style/AppTheme.NoActionBar2"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".DialogActivity"
-            android:theme="@style/AppTheme.NoActionBar3"></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".DialogActivity"
+            android:theme="@style/AppTheme.NoActionBar3" />
+        <activity
+            android:name=".CardSetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PhotoActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".DateActivity"></activity>
     </application>
 
 </manifest>

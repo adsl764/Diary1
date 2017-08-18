@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by alfo6-2 on 2017-07-24.
@@ -105,7 +106,27 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+
     }
+
+    public void updateQuery(ArrayList k, int date){
+        ArrayList<Item> items=(ArrayList<Item>) k;
+        SQLiteDatabase db = getWritableDatabase();
+            int queryNum=items.size();
+            ContentValues values=new ContentValues();
+            values.put("queryNum",queryNum);
+
+            for (int i=0;i<queryNum;i++){
+                if(items.get(i)!=null) {
+                    values.put("query"+i,items.get(i).getQuery());
+                    Log.i("asd",items.get(i).getQuery());
+                }
+                else values.put("query"+i,"");
+            }
+            db.update(TABLE_NAME_QUERY,values,"date=?",new String[]{0+""});
+        }
+
+
 
 
     public void insertOrUpdate(int date, ArrayList<Item> items,int index) {
@@ -124,7 +145,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 values.put("imgUri" + i, items.get(i).getImgUri());
                 values.put("content" + i, items.get(i).getContent());
             }
-            Log.i("asd", "인서트완료");
             db.insert(TABLE_NAME_DATA, null, values);
         } else {
             ContentValues values=new ContentValues();
@@ -162,19 +182,22 @@ public class DBHelper extends SQLiteOpenHelper {
         String sql = "select * from " + TABLE_NAME_QUERY + " order by date DESC";
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
-
-        while (cursor.moveToNext()) {
+        cursor.moveToNext();
             //사용자가 쿼리테이블을 업데이트하여서 사용할수 있게해줌 !
             if (cursor.getInt(cursor.getColumnIndex("date")) <= date) {
                 querys.clear();
                 for (int i = 0; i < cursor.getInt(cursor.getColumnIndex("queryNum")); i++) {
+                    if(cursor.getString(cursor.getColumnIndex("query" + i)).equals("")) continue;
                     querys.add(cursor.getString(cursor.getColumnIndex("query" + i)));
                 }
             } else {
-// TODO: 2017-08-01 이제 사용자가 저장한값을 블러올수있게지정해야함 
+                // TODO: 2017-08-01 이제 사용자가 저장한값을 블러올수있게지정해야함
 
             }
-        }
+
+
+
+
 
 
         return querys;
@@ -198,4 +221,5 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return items;
     }
+
 }

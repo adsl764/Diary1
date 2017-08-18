@@ -48,14 +48,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((MyViewHolder)holder).tvQuery.setText(items.get(position).getQuery());
-
+        if(!items.get(position).getQuery().equals("")) {
+            ((MyViewHolder) holder).tvQuery.setText(items.get(position).getQuery());
+        }
         if(items.get(position).getContent()!=null) {
             ((MyViewHolder) holder).tvContent.setText(items.get(position).getContent());
         }else {
             ((MyViewHolder) holder).tvContent.setText("");
         }
-
         if(items.get(position).getImgUri()!=null) Glide.with(context).load(items.get(position).getImgUri()).into(((MyViewHolder)holder).circleImageView);
 
     }
@@ -81,7 +81,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if(items.get(getLayoutPosition()).getImgUri()!=null){
                         ((MainActivity)context).카드뷰클릭(tvQuery.getText().toString(),tvContent.getText().toString(),getLayoutPosition(),(CardView) itemView,items.get(getLayoutPosition()).getImgUri());
 

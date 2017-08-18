@@ -31,7 +31,7 @@ public class TestActivity extends AppCompatActivity {
     Intent i;
     ImageView ivSave;
     ImageView ivCamera;
-    final int DIALOG_ACTIVITY = 20;
+    static final int DIALOG_ACTIVITY = 20;
     InputMethodManager imm;
     public final static int MY_PERMISSION_REQUEST_READ_CONTACTS=120;
     CircleImageView circleImageView;

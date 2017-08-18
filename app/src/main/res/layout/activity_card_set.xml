@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.park1993.diary1.CardSetActivity">
+
+
+
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/layout_coordinator"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:layout_height="match_parent"
+            tools:context="com.park1993.diary1.MainActivity">
+
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                        <TextView
+                            android:layout_marginLeft="72dp"
+                            android:id="@+id/tv_date_day"
+                            android:textStyle="bold"
+                            android:textColor="#000"
+                            android:textSize="36sp"
+                            android:layout_width="54dp"
+                            android:layout_height="wrap_content"
+                            android:text="24"/>
+                        <TextView
+                            android:id="@+id/tv_date_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="금요일\n2017년7월"/>
+
+                    <TextView
+                        android:id="@+id/tv_ok"
+                        android:clickable="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="120dp"
+                        android:text="완료"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#080"/>
+
+
+                </android.support.v7.widget.Toolbar>
+
+
+
+
+            </android.support.design.widget.AppBarLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                app:srcCompat="@android:drawable/ic_menu_add" />
+
+            <include layout="@layout/care_set_recicler" />
+
+        </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
+
+
+
