@@ -100,7 +100,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 "queryNum integer" + ");";
         db.execSQL(sql);
 
-
     }
 
     @Override
@@ -125,9 +124,6 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             db.update(TABLE_NAME_QUERY,values,"date=?",new String[]{0+""});
         }
-
-
-
 
     public void insertOrUpdate(int date, ArrayList<Item> items,int index) {
         SQLiteDatabase db = getWritableDatabase();
@@ -220,6 +216,29 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         return items;
+    }
+
+    public void setPhotoItems(ArrayList<PhotoItem> photoItems,PhotoRecyclerAdapter adapter){
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "select * from " + TABLE_NAME_DATA ;
+        Cursor cursor = db.rawQuery(sql, null);
+
+        while (cursor.moveToNext()){
+            for (int i=0;i<8;i++) {
+                PhotoItem item = new PhotoItem();
+                Log.i("dsds","dsds");
+                String uri=cursor.getString(cursor.getColumnIndex("imgUri" + i));
+                if(uri==null)continue;
+
+                item.path = uri;
+                item.date = cursor.getInt(cursor.getColumnIndex("date"))+"";
+                photoItems.add(item);
+
+            }
+        }
+        adapter.notifyDataSetChanged();
+
+
     }
 
 }

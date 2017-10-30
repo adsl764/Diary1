@@ -3,6 +3,7 @@ package com.park1993.diary1;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -83,6 +84,10 @@ public class TestActivity extends AppCompatActivity {
             Log.e("asdasd","asdsad");
             Glide.with(this).load(i.getStringExtra("ImgUri")).into(circleImageView);
         }
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"nanumpen.ttf");
+        tvQuery.setTypeface(typeface);
+        etContent.setTypeface(typeface);
+
 
 
     }

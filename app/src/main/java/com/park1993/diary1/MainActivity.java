@@ -3,7 +3,9 @@ package com.park1993.diary1;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -29,6 +31,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.text.SimpleDateFormat;
@@ -38,6 +41,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     public static int date;
     SQLiteDatabase db;
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     Animation FAB_open;
     Animation FAB_close;
     Animation rotate_forward, rotate_backward;
+    Animation Text_close;
 
 
     //플로팅 액션버튼 리스너
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         초깃값설정();
+
 
     }
 
@@ -135,6 +141,8 @@ public class MainActivity extends AppCompatActivity
         date = Integer.parseInt(d);
 
         img=(ImageView)findViewById(R.id.ccc);
+
+        Text_close=AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_close);
         FAB_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         FAB_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
@@ -180,6 +188,12 @@ public class MainActivity extends AppCompatActivity
         tvMonth.setText(myGetDay(y, m, day) + "\n" + y + "년" + m + "월");
         tvDay.setText(d.substring(6, 8));
 
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"nanumpen.ttf");
+        tvMonth.setTypeface(typeface);
+        tvDay.setTypeface(typeface);
+
+
+
 
 
     }
@@ -191,17 +205,28 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            clickFab2();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
+            Intent i =new Intent(this,SetPassActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if(id==R.id.nav_lock){
+            SharedPreferences preferences=getSharedPreferences("pref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isOk",true);
+            editor.commit();
+            Toast.makeText(this, "잠금화면이 설정되었습니다", Toast.LENGTH_SHORT).show();
+        } else if(id==R.id.nav_unlock){
+            SharedPreferences preferences=getSharedPreferences("pref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isOk",false);
+            editor.commit();
+            Toast.makeText(this, "잠금화면이 해제되었습니다", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -278,15 +303,19 @@ public class MainActivity extends AppCompatActivity
             //만약 디비에 해당 날짜에 값이 없으면 그때는 질문을 가지고 돌아오기
 
             String s = String.format("%d%02d%02d", year, month + 1, dayOfMonth);
+
             loadDB(Integer.parseInt(s));
             date = Integer.parseInt(s);
+            tvDay.startAnimation(Text_close);
+            tvMonth.startAnimation(Text_close);
+
 
             tvDay.setText(String.format("%02d", dayOfMonth));
             tvMonth.setText(myGetDay(year, month + 1, dayOfMonth) + "\n" + year + "년" + (month + 1) + "월");
 
         }
     };
-    //////////////////플로팅액션버튼 리스너
+    //////////////////플로팅액션버튼 리스너3
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -298,7 +327,6 @@ public class MainActivity extends AppCompatActivity
             }
             if(v.getId()== R.id.fab3){
                 clickFab2();
-
             }
             if(v.getId()== R.id.fab4){
 
@@ -321,6 +349,8 @@ public class MainActivity extends AppCompatActivity
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<View, String>(view, "IMG"));
             startActivityForResult(intent, TEST_ACTIVITY, options.toBundle());
+
+
         }
 
 

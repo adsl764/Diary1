@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.park1993.diary1.SetPassActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="14dp"
+                android:gravity="center"
+                android:text="비 밀 번 호 설 정"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+    <ImageView
+        android:id="@+id/passem1"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_em"
+        android:layout_marginTop="106dp"
+        android:layout_marginLeft="48dp" />
+    <ImageView
+        android:id="@+id/passcom1"
+        android:visibility="gone"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_com"
+        android:layout_marginTop="106dp"
+        android:layout_marginLeft="48dp" />
+    <ImageView
+        android:layout_marginLeft="24dp"
+        android:id="@+id/passem2"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_em"
+        android:layout_alignTop="@+id/passem1"
+        android:layout_toEndOf="@+id/passem1" />
+    <ImageView
+        android:layout_marginLeft="24dp"
+        android:id="@+id/passem3"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_em"
+        android:layout_alignTop="@+id/passem2"
+        android:layout_toEndOf="@+id/passem2" />
+    <ImageView
+        android:layout_marginLeft="24dp"
+        android:id="@+id/passem4"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_em"
+        android:layout_alignTop="@+id/passem3"
+        android:layout_toEndOf="@+id/passem3" />
+
+    <ImageView
+        android:layout_marginLeft="24dp"
+        android:id="@+id/passcom2"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_com"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/passem1"
+        android:layout_toEndOf="@+id/passem1" />
+    <ImageView
+        android:layout_marginLeft="24dp"
+        android:id="@+id/passcom3"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_com"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/passem2"
+        android:layout_toEndOf="@+id/passem2" />
+    <ImageView
+        android:layout_marginLeft="24dp"
+        android:id="@+id/passcom4"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pass_com"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/passem3"
+        android:layout_toEndOf="@+id/passem3" />
+    <com.andrognito.pinlockview.PinLockView
+        android:id="@+id/pin_lock_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:keypadTextSize="24dp"
+        app:keypadTextColor="#000"
+        app:keypadButtonSize="84dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+
+</RelativeLayout>

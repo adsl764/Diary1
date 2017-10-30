@@ -2,6 +2,7 @@ package com.park1993.diary1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -78,6 +79,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter {
             tvContent=(TextView)itemView.findViewById(R.id.tv_content);
             circleImageView=(CircleImageView)itemView.findViewById(R.id.iv_circle);
 
+
+
+            Typeface typeface = Typeface.createFromAsset(context.getAssets(),"nanumpen.ttf");
+            tvContent.setTypeface(typeface);
+            tvQuery.setTypeface(typeface);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -14,14 +14,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
-            android:text="sadasdasd"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:textSize="24sp"
             android:id="@+id/tv_query"
             android:layout_width="280dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/et_content"
             android:gravity="clip_vertical"
